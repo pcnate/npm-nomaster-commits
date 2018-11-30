@@ -2,9 +2,9 @@
   "name": "nomaster-commits",
   "version": "1.0.0",
   "description": "simple dev module to add a pre-commit hook to block commits to master",
-  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "postinstall": "node dist/install",
+    "preuninstall": "node dist/uninstall"
   },
   "repository": {
     "type": "git",
