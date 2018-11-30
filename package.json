@@ -1,0 +1,24 @@
+{
+  "name": "nomaster-commits",
+  "version": "1.0.0",
+  "description": "simple dev module to add a pre-commit hook to block commits to master",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pcnate/npm-nomaster-commits.git"
+  },
+  "keywords": [
+    "git",
+    "precommit",
+    "git-hooks"
+  ],
+  "author": "Nathan Baker <pcnate@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/pcnate/npm-nomaster-commits/issues"
+  },
+  "homepage": "https://github.com/pcnate/npm-nomaster-commits#readme"
+}
