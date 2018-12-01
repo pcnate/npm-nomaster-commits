@@ -7,6 +7,7 @@ var crypto = require('crypto');
 const exists = util.promisify( fs.exists );
 const readFile = util.promisify( fs.readFile );
 const copyFile = util.promisify( fs.copyFile );
+const chmodFile = util.promisify( fs.chmod );
 const { precommitFile, baseFile } = require('./constants');
 
 ( async () => {
@@ -17,6 +18,7 @@ const { precommitFile, baseFile } = require('./constants');
   
   if ( !precommitFileExists ) {
     await copyFile( baseFile, precommitFile );
+    await chmodFile( precommitFile, '0755' );
     console.log( 'nomaster precommit hook installed' );
   } else {
 
