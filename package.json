@@ -1,6 +1,6 @@
 {
   "name": "npm-nomaster-commits",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "simple dev module to add a pre-commit hook to block commits to master",
   "scripts": {
     "postinstall": "node dist/install",
