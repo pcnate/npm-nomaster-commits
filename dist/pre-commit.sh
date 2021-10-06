@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env bash; c:/Program\ Files/Git/usr/bin/sh.exe
 
 branch="$(git rev-parse --abbrev-ref HEAD)"
 
