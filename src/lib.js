@@ -166,6 +166,10 @@ module.exports.status = ( verbose = false, directory ) => new Promise( async res
   if ( await this.compareFileContents( precommitFileContents, baseFileContents ) ) {
     console.log( 'file contents match?' )
   }
+
+  console.log( 'precommitFileContents: ', precommitFileContents );
+  console.log( 'baseFileContents     : ', baseFileContents      );
+
   // print out the findings
   resolve({ action: 'exit', exitCode: 0 });
 });
@@ -189,9 +193,9 @@ module.exports.install = ( verbose = false, directory ) => new Promise( async re
 
   const { isCi } = envCi();
 
-  if( isCi && enableOnCiEnvs ) {
+  if( isCi && !enableOnCiEnvs ) {
     console.warn( color.red( 'This run was triggered in a known CI environment, not installing' ) );
-    resolve({ action: 'exit', exitCode: 1 });
+    resolve({ action: 'exit', exitCode: 0 });
     return;
   }
 
