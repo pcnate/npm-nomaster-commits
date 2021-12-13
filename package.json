@@ -6,7 +6,8 @@
     "_install": "node ./main.js --install",
     "_uninstall": "node ./main.js --uninstall",
     "postinstall": "node ./main.js --install && node ./src/updateDocs.js",
-    "preuninstall": "node ./main.js --uninstall"
+    "preuninstall": "node ./main.js --uninstall",
+    "test": "npx jest"
   },
   "main": "./main.js",
   "bin": {
