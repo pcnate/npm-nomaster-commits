@@ -17,11 +17,8 @@ function findParentPkgDesc(directory) {
   return findParentPkgDesc(parent);
 }
 
-const precommitFile = path.join( findParentPkgDesc( path.dirname( process.cwd() ) ), ".git/hooks/pre-commit" );
-const baseFile = path.join( findParentPkgDesc( process.cwd() ), "dist/pre-commit.sh" );
-
-console.log({ precommitFile });
-console.log({ baseFile });
+const precommitFile = path.join( findParentPkgDesc( path.dirname( process.cwd() ) ), ".git", "hooks", "pre-commit" );
+const baseFile = path.join( __dirname, "pre-commit.sh" );
 
 module.exports = {
   precommitFile,

@@ -1,0 +1,38 @@
+
+Name:
+	npm-nomaster-commits v1.0.5
+
+Description:
+	NPM package that adds a pre-commit hook that blocks commits to the
+	master/main/truck branches of a git repository. May be optionally inst-
+	alled globally to provide commands to install the pre-commit hook into
+	the local git repository.
+    
+Usage:
+	nomaster [options]
+	nomain [options]
+
+Options:
+	--help      Shows this help file. This is the default if no other
+	            option is provided.
+
+	--install   Install the pre-commit hook into the current .git folder
+	            of the current repository
+
+	--uninstall Remove the matching pre-commit hook from the current .git
+	            folder of the current repository
+
+	--status    Shows the current installation status of the current wor-
+	            king directory. It also will show if the current working
+	            directory is a valid git repository.
+
+	--verbose   Increase the verbosity of logging for debug purposes
+
+Copyright:
+	Copyright © 2021 Nathan Baker. This is free software: you are free to
+	change and redistribute it. There is NO WARRANTY, to the extent perm-
+	itted by law. Distributed under the MIT license available on GitHub
+	<https://github.com/pcnate/npm-nomaster-commits/blob/master/LICENSE>
+
+Authors:
+	Nathan Baker <pcnate@gmail.com>
