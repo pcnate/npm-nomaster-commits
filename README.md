@@ -24,8 +24,13 @@ Then from a valid git repository run the following:
 
 ## Usage:
 
- 1. nomaster [options]
- 1. nomain [options]
+ * nomaster [options]
+ * nomain [options]
+
+Examples:
+ * nomaster --install --directory /home/yourUser/github/yourRepository
+ * nomaster --install --directory c:\github\yourRepository
+ * nomaster --status
 
 ## Options:
 | option | description |
