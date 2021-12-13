@@ -194,7 +194,7 @@ module.exports.install = ( verbose = false, directory ) => new Promise( async re
   const { isCi } = envCi();
 
   if( isCi && !enableOnCiEnvs ) {
-    console.warn( color.red( 'This run was triggered in a known CI environment, not installing' ) );
+    console.warn( color.red( 'This run was triggered in a known CI environment' ), color.yellow( 'not installing pre-commit hook' ) );
     resolve({ action: 'exit', exitCode: 0 });
     return;
   }
