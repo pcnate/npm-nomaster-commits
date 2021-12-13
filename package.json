@@ -1,11 +1,20 @@
 {
   "name": "npm-nomaster-commits",
   "version": "1.0.5",
-  "description": "simple dev module to add a pre-commit hook to block commits to master",
+  "description": "simple dev module to add a pre-commit hook to block commits to master/main/trunk",
   "scripts": {
-    "postinstall": "node dist/install",
-    "preuninstall": "node dist/uninstall"
+    "_install": "node ./main.js --install",
+    "_uninstall": "node ./main.js --uninstall",
+    "postinstall": "node ./main.js --install && node ./src/updateDocs.js",
+    "preuninstall": "node ./main.js --uninstall",
+    "test": "npx jest"
   },
+  "main": "./main.js",
+  "bin": {
+    "nomaster": "./main.js",
+    "nomain": "./main.js"
+  },
+  "man": "./man/main.1",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/pcnate/npm-nomaster-commits.git"
@@ -20,5 +29,16 @@
   "bugs": {
     "url": "https://github.com/pcnate/npm-nomaster-commits/issues"
   },
-  "homepage": "https://github.com/pcnate/npm-nomaster-commits#readme"
+  "homepage": "https://github.com/pcnate/npm-nomaster-commits#readme",
+  "dependencies": {
+    "cli-color": "^2.0.1",
+    "env-ci": "^6.0.0",
+    "fs-extra": "^10.0.0",
+    "minimist": "^1.2.5",
+    "run-func": "^1.0.5"
+  },
+  "devDependencies": {
+    "@types/jest": "^27.0.3",
+    "jest": "^27.4.3"
+  }
 }
