@@ -5,8 +5,8 @@
   "scripts": {
     "_install": "node ./main.js --install",
     "_uninstall": "node ./main.js --uninstall",
-    "postinstall": "node ./main.js --install && node ./src/updateDocs.js",
-    "preuninstall": "node ./main.js --uninstall",
+    "postinstall": "node ./main.js --install --auto && node ./src/updateDocs.js",
+    "preuninstall": "node ./main.js --uninstall --auto",
     "test": "npx jest"
   },
   "main": "./main.js",
@@ -34,7 +34,8 @@
     "cli-color": "^2.0.1",
     "env-ci": "^6.0.0",
     "fs-extra": "^10.0.0",
-    "minimist": "^1.2.5",
+    "is-installed-globally": "^0.4.0",
+    "minimist": "^1.2.5"
   },
   "devDependencies": {
     "@types/jest": "^27.0.3",
