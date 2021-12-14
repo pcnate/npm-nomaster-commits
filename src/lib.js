@@ -31,7 +31,7 @@ module.exports.findParentPkgDesc = ( directory ) => {
   if( fs.existsSync( file ) && fs.statSync( file ).isDirectory() ) return path.dirname( file );
   var parent = path.resolve( directory, '..' );
   if( parent === directory ) return null;
-  return this.findParentPkgDesc( parent );
+  return this.findParentPkgDesc( parent ) || directory;
 }
 
 
