@@ -2,6 +2,7 @@
 
 const lib = require('./src');
 const args = require('minimist')( process.argv.slice( 2 ) );
+const isInstalledGlobally = require('is-installed-globally');
 
 
 /**
@@ -21,7 +22,8 @@ async function status( verbose, directory ) {
  * @param {boolean} verbose extra verbose logging
  * @param {string} directory directory to act upon
  */
-async function install( verbose, directory ) {
+async function install( verbose, directory, auto ) {
+  if( isInstalledGlobally && auto ) process.exit(0);
   const { action, exitCode } = await lib.install( verbose, directory );
   if( action === 'exit' ) process.exit( exitCode );
 }
@@ -33,7 +35,8 @@ async function install( verbose, directory ) {
  * @param {boolean} verbose extra verbose logging
  * @param {string} directory directory to act upon
  */
-async function uninstall( verbose, directory ) {
+async function uninstall( verbose, directory, auto ) {
+  if( isInstalledGlobally && auto ) process.exit(0);
   const { action, exitCode } = await lib.uninstall( verbose, directory );
   if( action === 'exit' ) process.exit( exitCode );
 }
@@ -55,8 +58,9 @@ async function help() {
 if ( require.main === module ) {
   ( async() => {
 
-    let verbose = !!args['verbose'] || false;
-    let directory = !!args['directory'] ? args['directory'] : process.cwd();
+    const verbose = !!args['verbose'] || false;
+    const directory = !!args['directory'] ? args['directory'] : process.cwd();
+    const auto = !!args['auto'] || false;
   
     if( !!args['help'] || ( !args['install'] && !args['uninstall'] && !args['status']) ) {
       console.log( await help() );
@@ -67,11 +71,11 @@ if ( require.main === module ) {
     } else
   
     if( !!args['install'] ) {
-      await install( verbose, directory );
+      await install( verbose, directory, auto );
     } else
   
     if( !!args['uninstall'] ) {
-      await uninstall( verbose, directory );
+      await uninstall( verbose, directory, auto );
     }
     
   })();

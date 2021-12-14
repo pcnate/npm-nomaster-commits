@@ -9,7 +9,7 @@ describe( 'check help output', () => {
 
   const helpOutput = testModule();
 
-  it( 'should contain valid package name and version', async () => {
+  it( 'should contain valid package name and version', async() => {
     const packageName = `${ packageJson.name } v${ packageJson.version }`;
     expect( helpOutput ).toEqual( expect.stringContaining( packageName ) );
   });
@@ -26,6 +26,7 @@ describe( 'check help output', () => {
     expect( helpOutput ).toEqual( expect.stringMatching( /\t--directory\s+\w+/gmi ) );
     expect( helpOutput ).toEqual( expect.stringMatching( /\t--status\s+\w+/gmi    ) );
     expect( helpOutput ).toEqual( expect.stringMatching( /\t--verbose\s+\w+/gmi   ) );
+    expect( helpOutput ).toEqual( expect.stringMatching( /\t--auto\s+\w+/gmi      ) );
   });
 
   it( 'should contain copyright', async() => {

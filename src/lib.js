@@ -2,6 +2,7 @@
 
 const path   = require('path');
 const fs     = require('fs');
+const os     = require('os');
 const util   = require('util');
 const crypto = require('crypto');
 const envCi  = require('env-ci');
@@ -30,7 +31,7 @@ module.exports.findParentPkgDesc = ( directory ) => {
   if( fs.existsSync( file ) && fs.statSync( file ).isDirectory() ) return path.dirname( file );
   var parent = path.resolve( directory, '..' );
   if( parent === directory ) return null;
-  return this.findParentPkgDesc( parent );
+  return this.findParentPkgDesc( parent ) || directory;
 }
 
 
@@ -103,7 +104,6 @@ module.exports.copyFile = async ( verbose = false, source, target ) => new Promi
  * change the permissions to allow pre-commit hook to be executable
  * 
  * @param {boolean} verbose extra verbose logging
- * @param {string} source path to the source file
  * @param {string} target path to the target file
  * @returns {promise}
  */
@@ -126,7 +126,7 @@ module.exports.makeExecutable = async ( verbose = false, target ) => new Promise
  * @returns {promise}
  */
 module.exports.status = ( verbose = false, directory ) => new Promise( async resolve => {
-  console.log( color.blue( 'attempting to check for nomaster pre-commit hook' ) );
+  console.log( color.blue( `checking '${ directory }' for nomaster pre-commit hook` ) );
 
   const precommitFile   = this.precommitFile( directory );
   const baseFile        = this.baseFile();
@@ -134,10 +134,6 @@ module.exports.status = ( verbose = false, directory ) => new Promise( async res
 
   console.log( 'pre-commit hook source:', baseFile      );
   console.log( 'pre-commit hook path:  ', precommitFile );
-  console.log({
-    directory,
-    verbose,
-  })
 
   // check for base file
   if( !await fs2.exists( baseFile ) ) {
@@ -145,7 +141,6 @@ module.exports.status = ( verbose = false, directory ) => new Promise( async res
     resolve({ action: 'exit', exitCode: 1 });
     return;
   }
-  
   
   // check if folder is a git repository
   if( !await fs2.exists( targetGitFolder ) && !fs.statSync( targetGitFolder ).isDirectory() ) {
@@ -161,16 +156,17 @@ module.exports.status = ( verbose = false, directory ) => new Promise( async res
     return;
   }
 
+  // compare the installed pre-commit hook
   const precommitFileContents = ( await fs2.readFile( precommitFile ) ).toString();
   const baseFileContents      = ( await fs2.readFile( baseFile      ) ).toString();
-  if ( await this.compareFileContents( precommitFileContents, baseFileContents ) ) {
-    console.log( 'file contents match?' )
+  if ( !await this.compareFileContents( precommitFileContents, baseFileContents ) ) {
+    console.warn( color.red( 'a different pre-commit hook is installed' ) );
+    resolve({ action: 'exit', exitCode: 0 });
+    return;
   }
-
-  console.log( 'precommitFileContents: ', precommitFileContents );
-  console.log( 'baseFileContents     : ', baseFileContents      );
-
-  // print out the findings
+  
+  // looks like our pre-commit hook is already installed
+  console.log( color.red( 'nomaster pre-commit hook already installed' ) );
   resolve({ action: 'exit', exitCode: 0 });
 });
 
@@ -186,8 +182,7 @@ module.exports.install = ( verbose = false, directory ) => new Promise( async re
   console.log( color.blue( 'attempting to install nomaster pre-commit hook' ) );
   console.log( 'pre-commit hook source:', this.baseFile() );
   console.log( 'pre-commit hook path:  ', this.precommitFile( directory ) );
-  console.log({ verbose })
-
+  
   const precommitFile = this.precommitFile( directory );
   const baseFile = this.baseFile();
 
@@ -263,10 +258,17 @@ module.exports.install = ( verbose = false, directory ) => new Promise( async re
   }
   
   console.warn('another pre-commit is installed, please remove this package or that pre-commit');
-  console.warn(`continuing in ${ CONTINUE_ON_CONFLICTING_COMMIT_HOOK_DELAY } seconds`)
+
+  let i = CONTINUE_ON_CONFLICTING_COMMIT_HOOK_DELAY;
+  process.stdout.write(`continuing in ${ i } seconds\r`);
+  let _timer1 = setInterval( () => process.stdout.write(`continuing in ${ i } seconds\r`), 100 );
+  let _timer2 = setInterval( () => i--, 1000 );
   setTimeout( () => {
+    process.stdout.write( os.EOL );
+    clearInterval( _timer1 );
+    clearInterval( _timer2 );
     resolve({ action: 'exit', exitCode: 0 });
-  }, CONTINUE_ON_CONFLICTING_COMMIT_HOOK_DELAY * 1000 );
+  }, ( CONTINUE_ON_CONFLICTING_COMMIT_HOOK_DELAY * 1000 ) + 200 );
 
 });
 
@@ -282,7 +284,6 @@ module.exports.uninstall = ( verbose = false, directory ) => new Promise( async 
   console.log( color.blue( 'attempting to uninstall nomaster pre-commit hook' ) );
   console.log( 'pre-commit hook source:', this.baseFile() );
   console.log( 'pre-commit hook path:  ', this.precommitFile( directory ) );
-  console.log({ verbose })
 
   const precommitFile = this.precommitFile( directory );
   const baseFile = this.baseFile();
