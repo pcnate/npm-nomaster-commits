@@ -2,6 +2,7 @@
 
 const path   = require('path');
 const fs     = require('fs');
+const os     = require('os');
 const util   = require('util');
 const crypto = require('crypto');
 const envCi  = require('env-ci');
@@ -256,10 +257,17 @@ module.exports.install = ( verbose = false, directory ) => new Promise( async re
   }
   
   console.warn('another pre-commit is installed, please remove this package or that pre-commit');
-  console.warn(`continuing in ${ CONTINUE_ON_CONFLICTING_COMMIT_HOOK_DELAY } seconds`)
+
+  let i = CONTINUE_ON_CONFLICTING_COMMIT_HOOK_DELAY;
+  process.stdout.write(`continuing in ${ i } seconds\r`);
+  let _timer1 = setInterval( () => process.stdout.write(`continuing in ${ i } seconds\r`), 100 );
+  let _timer2 = setInterval( () => i--, 1000 );
   setTimeout( () => {
+    process.stdout.write( os.EOL );
+    clearInterval( _timer1 );
+    clearInterval( _timer2 );
     resolve({ action: 'exit', exitCode: 0 });
-  }, CONTINUE_ON_CONFLICTING_COMMIT_HOOK_DELAY * 1000 );
+  }, ( CONTINUE_ON_CONFLICTING_COMMIT_HOOK_DELAY * 1000 ) + 200 );
 
 });
 
