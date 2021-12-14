@@ -40,6 +40,8 @@ Options:
 
 \t--verbose   Increase the verbosity of logging for debug purposes
 
+\t--auto      Only used during postinstall and preuninstall scripts
+
 Copyright:
 \tCopyright © ${y} Nathan Baker. This is free software: you are free to
 \tchange and redistribute it. There is NO WARRANTY, to the extent perm-
@@ -47,5 +49,5 @@ Copyright:
 \t<https://github.com/pcnate/npm-nomaster-commits/blob/master/LICENSE>
 
 Authors:
-\t${ packageJson?.author }
+\t${ !! packageJson?.author?.name ? ( packageJson?.author?.name + ' <' + packageJson?.author?.email ) : packageJson?.author }
 `.replace( /(\r|\r\n)/gmi, os.EOL );
