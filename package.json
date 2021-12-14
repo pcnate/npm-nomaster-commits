@@ -35,7 +35,6 @@
     "env-ci": "^6.0.0",
     "fs-extra": "^10.0.0",
     "minimist": "^1.2.5",
-    "run-func": "^1.0.5"
   },
   "devDependencies": {
     "@types/jest": "^27.0.3",
