@@ -126,7 +126,7 @@ module.exports.makeExecutable = async ( verbose = false, target ) => new Promise
  * @returns {promise}
  */
 module.exports.status = ( verbose = false, directory ) => new Promise( async resolve => {
-  console.log( color.blue( 'attempting to check for nomaster pre-commit hook' ) );
+  console.log( color.blue( `checking '${ directory }' for nomaster pre-commit hook` ) );
 
   const precommitFile   = this.precommitFile( directory );
   const baseFile        = this.baseFile();
@@ -156,16 +156,17 @@ module.exports.status = ( verbose = false, directory ) => new Promise( async res
     return;
   }
 
+  // compare the installed pre-commit hook
   const precommitFileContents = ( await fs2.readFile( precommitFile ) ).toString();
   const baseFileContents      = ( await fs2.readFile( baseFile      ) ).toString();
-  if ( await this.compareFileContents( precommitFileContents, baseFileContents ) ) {
-    console.log( 'file contents match?' )
+  if ( !await this.compareFileContents( precommitFileContents, baseFileContents ) ) {
+    console.warn( color.red( 'a different pre-commit hook is installed' ) );
+    resolve({ action: 'exit', exitCode: 0 });
+    return;
   }
-
-  console.log( 'precommitFileContents: ', precommitFileContents );
-  console.log( 'baseFileContents     : ', baseFileContents      );
-
-  // print out the findings
+  
+  // looks like our pre-commit hook is already installed
+  console.log( color.red( 'nomaster pre-commit hook already installed' ) );
   resolve({ action: 'exit', exitCode: 0 });
 });
 
