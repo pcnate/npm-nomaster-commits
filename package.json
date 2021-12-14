@@ -21,6 +21,7 @@
   },
   "keywords": [
     "git",
+    "pre-commit",
     "precommit",
     "git-hooks"
   ],
