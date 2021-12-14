@@ -9,7 +9,7 @@ describe( 'check help output', () => {
 
   const helpOutput = testModule();
 
-  it( 'should contain valid package name and version', async () => {
+  it( 'should contain valid package name and version', async() => {
     const packageName = `${ packageJson.name } v${ packageJson.version }`;
     expect( helpOutput ).toEqual( expect.stringContaining( packageName ) );
   });
