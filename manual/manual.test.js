@@ -26,6 +26,7 @@ describe( 'check help output', () => {
     expect( helpOutput ).toEqual( expect.stringMatching( /\t--directory\s+\w+/gmi ) );
     expect( helpOutput ).toEqual( expect.stringMatching( /\t--status\s+\w+/gmi    ) );
     expect( helpOutput ).toEqual( expect.stringMatching( /\t--verbose\s+\w+/gmi   ) );
+    expect( helpOutput ).toEqual( expect.stringMatching( /\t--auto\s+\w+/gmi      ) );
   });
 
   it( 'should contain copyright', async() => {
