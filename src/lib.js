@@ -103,7 +103,6 @@ module.exports.copyFile = async ( verbose = false, source, target ) => new Promi
  * change the permissions to allow pre-commit hook to be executable
  * 
  * @param {boolean} verbose extra verbose logging
- * @param {string} source path to the source file
  * @param {string} target path to the target file
  * @returns {promise}
  */
@@ -134,10 +133,6 @@ module.exports.status = ( verbose = false, directory ) => new Promise( async res
 
   console.log( 'pre-commit hook source:', baseFile      );
   console.log( 'pre-commit hook path:  ', precommitFile );
-  console.log({
-    directory,
-    verbose,
-  })
 
   // check for base file
   if( !await fs2.exists( baseFile ) ) {
@@ -145,7 +140,6 @@ module.exports.status = ( verbose = false, directory ) => new Promise( async res
     resolve({ action: 'exit', exitCode: 1 });
     return;
   }
-  
   
   // check if folder is a git repository
   if( !await fs2.exists( targetGitFolder ) && !fs.statSync( targetGitFolder ).isDirectory() ) {
@@ -186,8 +180,7 @@ module.exports.install = ( verbose = false, directory ) => new Promise( async re
   console.log( color.blue( 'attempting to install nomaster pre-commit hook' ) );
   console.log( 'pre-commit hook source:', this.baseFile() );
   console.log( 'pre-commit hook path:  ', this.precommitFile( directory ) );
-  console.log({ verbose })
-
+  
   const precommitFile = this.precommitFile( directory );
   const baseFile = this.baseFile();
 
@@ -282,7 +275,6 @@ module.exports.uninstall = ( verbose = false, directory ) => new Promise( async 
   console.log( color.blue( 'attempting to uninstall nomaster pre-commit hook' ) );
   console.log( 'pre-commit hook source:', this.baseFile() );
   console.log( 'pre-commit hook path:  ', this.precommitFile( directory ) );
-  console.log({ verbose })
 
   const precommitFile = this.precommitFile( directory );
   const baseFile = this.baseFile();
