@@ -58,8 +58,8 @@ async function help() {
 if ( require.main === module ) {
   ( async() => {
 
-    let verbose = !!args['verbose'] || false;
-    let directory = !!args['directory'] ? args['directory'] : process.cwd();
+    const verbose = !!args['verbose'] || false;
+    const directory = !!args['directory'] ? args['directory'] : process.cwd();
     const auto = !!args['auto'] || false;
   
     if( !!args['help'] || ( !args['install'] && !args['uninstall'] && !args['status']) ) {
