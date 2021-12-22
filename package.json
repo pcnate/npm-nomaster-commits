@@ -7,6 +7,9 @@
     "_uninstall": "node ./main.js --uninstall",
     "postinstall": "node ./main.js --install --auto && node -v && node ./src/updateDocs.js",
     "preuninstall": "node ./main.js --uninstall --auto",
+    "preversion": "npm run test",
+    "postversion": "npm publish",
+    "postpublish": "git push origin --all; git push origin --tags",
     "test": "npx jest"
   },
   "main": "./main.js",
