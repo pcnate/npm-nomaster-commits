@@ -5,7 +5,7 @@
   "scripts": {
     "_install": "node ./main.js --install",
     "_uninstall": "node ./main.js --uninstall",
-    "postinstall": "node ./main.js --install --auto && node ./src/updateDocs.js",
+    "postinstall": "node ./main.js --install --auto && node -v && node ./src/updateDocs.js",
     "preuninstall": "node ./main.js --uninstall --auto",
     "test": "npx jest"
   },
@@ -13,6 +13,10 @@
   "bin": {
     "nomaster": "./main.js",
     "nomain": "./main.js"
+  },
+  "engines": {
+    "node": ">=14.x",
+    "npm": ">=6.x"
   },
   "man": "./man/main.1",
   "repository": {
