@@ -9,7 +9,7 @@
     "preuninstall": "node ./main.js --uninstall --auto",
     "preversion": "npm run test",
     "postversion": "npm publish",
-    "postpublish": "git push origin --all; git push origin --tags",
+    "postpublish": "git push origin --all && git push origin --tags",
     "test": "npx jest"
   },
   "main": "./main.js",
